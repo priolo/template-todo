@@ -76,8 +76,8 @@ const TaskRow: React.FC<TaskRowProps> = ({
 				</Typography>
 			</TableCell>
 
-			<TableCell>
-				<Typography variant="body2">
+			<TableCell sx={{ maxWidth: 250 }}>
+				<Typography variant="body2" noWrap>
 					{task.description}
 				</Typography>
 			</TableCell>
