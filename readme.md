@@ -113,7 +113,7 @@ Servizi specializzati per l'applicazione:
 ## UX e ITERAZIONE CON A.I.
 Questo progetto è stato realizzato utilizzando l'AI solo come copilota.  
 Nello specifico sono state generate alcune configurazioni di progetto (per esempio vite.config.js) e alcuni test che ho revisionato.  
-L'architettura e il 90% del codice è stati interamente progettati da me.  
+L'architettura e il 90% del codice è stati interamente realizzato da me.  
 
 A fine progetto ho provato a far generare i "requirements.md" su alcune piattaforma di "vibe coding":
 - Lavabel
@@ -124,14 +124,16 @@ Lovable è il migliore:
 https://project-todo-master.lovable.app/tasks  
 
 La posizione dei bottoni principali è sul HEADER, simile alla mia soluzione:
-In questa maniera, specie per la tabella, si evita la gestione del footer.
+in questa maniera, specie per la tabella, si evita la gestione del footer.
 
-Sulla mia la modifica dello STATUS avviene tramite DIALOG per essere compatibile con il mobile.
+Nella mia soluzione la modifica dello STATUS avviene tramite DIALOG:
+per essere compatibile con il mobile.
 
-Loveable non gestisce gli stati da QueryString (filtro testo, ordinamento)  
+Loveable non gestisce gli stati da QueryString (filtro testo, ordinamento):  
 l'url non puo' essere condiviso per ripristinare lo stato dell'applicazione.  
 
-Loveable, secondo me, in generale è troppo complessa, ci sono troppe parti interattive a schermo soprattutto se si attiva la multiselezione.
+La UI/UX di Loveable, secondo me, in generale è troppo complessa:
+ci sono troppe parti interattive a schermo soprattutto se si attiva la multiselezione.
 
 
 ## TESTING
