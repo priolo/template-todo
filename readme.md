@@ -52,15 +52,14 @@
    `http://localhost:5000/app`
 
 
-
 ## STRUTTURA
 
 #### STORES
 `src\stores`  
 **CONTROLLER** per componenti specializzati come le PAGES.  
 Si occupa di mantenere lo stato e la logica di business dell'applicazione.  
-Gli STORE hanno dependency injection su API e recupero parametri esterni (dati memorizzati in query string)
-per renderli testabili e indipendenti.
+Gli STORE hanno dependency injection per renderli testabili e indipendenti.
+TEST: si possono testare con unit-test.
 
 #### PAGES
 `src\pages`  
@@ -70,13 +69,14 @@ Si occupano solo della presentazione e interazione con l'utente.
 
 #### TYPES
 `src\types`  
-**MODEL** (POCO) dati dell'applicazione.
+**MODEL** (POCO) entità dell'applicazione.
 
 #### COMPONENTS
 `src\components`  
 Componenti riutilizzabili.   
 Adatti a presentare o modificare un dato specifico (p.e. una textbox).  
 Non hanno dipendenze.
+TEST: testabili con `testing-library`
 
 #### LAYOUT
 `src\layout`  
@@ -110,8 +110,41 @@ Servizi specializzati per l'applicazione:
 
 
 
-## ITERAZIONE CON A.I.
-Questo progetto è stato realizzato interamente da me utilizzando l'AI solo come copilota.  
+## UX e ITERAZIONE CON A.I.
+Questo progetto è stato realizzato utilizzando l'AI solo come copilota.  
 Nello specifico sono state generate alcune configurazioni di progetto (per esempio vite.config.js) e alcuni test che ho revisionato.  
-L'architettura è stata interamente progettata da me.  
+L'architettura e il 90% del codice è stati interamente progettati da me.  
+
+A fine progetto ho provato a far generare i "requirements.md" su alcune piattaforma di "vibe coding":
+- Lavabel
+- Replit
+- Base44
+
+Lovable è il migliore:  
+https://project-todo-master.lovable.app/tasks  
+
+La posizione dei bottoni principali è sul HEADER, simile alla mia soluzione:
+In questa maniera, specie per la tabella, si evita la gestione del footer.
+
+Sulla mia la modifica dello STATUS avviene tramite DIALOG per essere compatibile con il mobile.
+
+Loveable non gestisce gli stati da QueryString (filtro testo, ordinamento)  
+l'url non puo' essere condiviso per ripristinare lo stato dell'applicazione.  
+
+Loveable, secondo me, in generale è troppo complessa, ci sono troppe parti interattive a schermo soprattutto se si attiva la multiselezione.
+
+
+## TESTING
+Per eseguire i test:  
+`npm run test`
+
+quindi vengono eseguiti gli unit-test   
+- sugli STORES  
+`src/stores/task/detail.test.ts`  
+`src/stores/task/list.test.ts`  
+- sulle UTILS  
+`src/plugins/urlParams/url.test.ts`  
+- sui COMPONENTS  
+`src/components/TableCellSort.test.tsx`  
+`src/components/StatusDialog.test.tsx`  
 
