@@ -1,16 +1,14 @@
 import TableCellSort from '@/components/TableCellSort';
+import themeSo from '@/stores/layout/theme';
 import locationSo, { LOCATION_PAGE } from '@/stores/location';
 import tasksSo, { Sort } from '@/stores/task/list';
 import { Task, TASK_STATUS } from '@/types/Task';
-import { Box, Button, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { useStore } from '@priolo/jon';
 import React, { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageBanner from '../../../components/MessageBanner';
 import TaskRow from './TaskRow';
-import dialogSo, { DIALOG_TYPE } from '@/stores/layout/dialogStore';
-import Card from '@/components/Card';
-import themeSo from '@/stores/layout/theme';
 
 
 
@@ -49,23 +47,6 @@ const TasksList: React.FC<Props> = ({
 		navigate(`/app/tasks/${task.id}`)
 	}
 
-	const handleNewTaskClick = () => {
-		navigate(`/app/tasks/new`)
-	}
-
-	const handleDeleteClick = async () => {
-		if (!(await dialogSo.dialogOpen({
-			type: DIALOG_TYPE.WARNING,
-			text: 'Are you sure you want to delete the selected tasks?',
-			modal: true,
-		}))) return
-		await tasksSo.bulkDelete()
-		dialogSo.dialogOpen({
-			type: DIALOG_TYPE.INFO,
-			text: 'Selected tasks have been deleted.',
-		})
-	}
-
 	const handleSelectAllClick = () => {
 		if (selectedIds.length == tasks.length) {
 			tasksSo.setSelected([])
@@ -92,11 +73,18 @@ const TasksList: React.FC<Props> = ({
 	const sort: Sort = tasksSo.getSortBy()
 	const theme = themeSo.state.current
 
-	if (!tasks || tasks.length === 0) {
-		return <MessageBanner>
+	if (tasksSo.state.all === null) return
+	if (tasksSo.state.all.length > 0 && tasks.length === 0) return (
+		<MessageBanner>
+			Nessun task corrisponde ai filtri di ricerca impostati.
+		</MessageBanner>
+	)
+	if (tasks.length === 0) return (
+		<MessageBanner>
 			Nessun task disponibile. Clicca su "ADD" per crearne uno nuovo.
 		</MessageBanner>
-	}
+	)
+
 
 	return (
 		<Table stickyHeader sx={{ maxWidth: '800px', bgcolor: theme.palette.background.paper }} >
@@ -142,10 +130,3 @@ const TasksList: React.FC<Props> = ({
 };
 
 export default TasksList;
-
-const sxFooter = {
-	p: 2,
-	display: 'flex',
-	justifyContent: 'flex-end',
-	gap: 2
-}

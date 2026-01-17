@@ -36,7 +36,7 @@ const StatusDialog: FunctionComponent<Partial<Props>> = ({
 		<Dialog onClose={handleClose} open={isOpen}>
 
 			<DialogTitle>
-				STAUS
+				STATUS
 			</DialogTitle>
 
 			<DialogContent>

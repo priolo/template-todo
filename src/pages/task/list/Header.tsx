@@ -1,7 +1,7 @@
 import dialogSo, { DIALOG_TYPE } from '@/stores/layout/dialogStore';
 import tasksSo from '@/stores/task/list';
 import { Close, Search } from '@mui/icons-material';
-import { Box, Button, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Button, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useStore } from '@priolo/jon';
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -45,11 +45,10 @@ const TasksListHeader: React.FC = () => {
 
 	// RENDER
 	return <>
+	
 		<Typography variant="h5">
 			TASKS LIST
 		</Typography>
-
-		
 
 		<TextField sx={{ flex: 1 }}
 			value={tasksSo.getTextFilter()}
@@ -68,8 +67,6 @@ const TasksListHeader: React.FC = () => {
 			onChange={(e) => tasksSo.setTextFilter(e.target.value)}
 			placeholder="Search tasks..."
 		/>
-
-		
 
 		{selectedIds.length > 0 && (
 			<Button variant="contained"
