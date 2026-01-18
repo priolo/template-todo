@@ -1,3 +1,4 @@
+import { useDebounce } from '@/hooks/useDebounce';
 import dialogSo, { DIALOG_TYPE } from '@/stores/layout/dialogStore';
 import tasksSo from '@/stores/task/list';
 import { Close, Search } from '@mui/icons-material';
@@ -17,10 +18,12 @@ const TasksListHeader: React.FC = () => {
 	// HOOKS
 	const navigate = useNavigate()
 
-	const selectedIds = useMemo(
-		() => tasksSo.getSelected(),
-		[tasksSo.state]
+	const [filter, setFilter] = useDebounce<string>(
+		tasksSo.getTextFilter(), 
+		(value) => tasksSo.setTextFilter(value),
 	)
+
+	const selectedIds = useMemo(() => tasksSo.getSelected(), [tasksSo.state])
 
 
 
@@ -42,16 +45,21 @@ const TasksListHeader: React.FC = () => {
 		})
 	}
 
+	const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter(e.target.value)
+	}
+
 
 	// RENDER
+
 	return <>
-	
+
 		<Typography variant="h5">
 			TASKS LIST
 		</Typography>
 
 		<TextField sx={{ flex: 1 }}
-			value={tasksSo.getTextFilter()}
+			value={filter}
 			slotProps={{
 				input: {
 					startAdornment: <InputAdornment position="start">
@@ -64,7 +72,7 @@ const TasksListHeader: React.FC = () => {
 					</InputAdornment>,
 				},
 			}}
-			onChange={(e) => tasksSo.setTextFilter(e.target.value)}
+			onChange={handleFilterChange}
 			placeholder="Search tasks..."
 		/>
 
