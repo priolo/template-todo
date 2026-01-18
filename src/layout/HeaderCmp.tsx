@@ -1,17 +1,14 @@
-import logoDark from '@/assets/logo_dark.svg';
-import logoLight from '@/assets/logo_light.svg';
 import themeSo from '@/stores/layout/theme';
 import locationSo, { LOCATION_PAGE } from '@/stores/location';
-import { Box, Button, IconButton, SxProps } from '@mui/material';
+import { Brightness4 as DarkModeIcon, Brightness7 as LightModeIcon } from '@mui/icons-material';
+import { Box, IconButton, SxProps } from '@mui/material';
 import { useStore } from '@priolo/jon';
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import BackButton from './BackButton';
-import { Brightness4 as DarkModeIcon, Brightness7 as LightModeIcon, Settings, Tune } from '@mui/icons-material';
 
 
-import TasksListHeader from '@/pages/task/list/Header';
 import TaskDetailHeader from '@/pages/task/detail/Header';
+import TasksListHeader from '@/pages/task/list/Header';
 import { lightTheme } from '@/theme/theme';
 
 
@@ -27,8 +24,6 @@ const HeaderCmp: React.FC<HeaderCmpProps> = ({
 	useStore(locationSo)
 
 	// HOOKS
-	const navigate = useNavigate()
-
 	const header = useMemo(() => {
 		return {
 			[LOCATION_PAGE.TASKS]: <TasksListHeader />,
@@ -45,7 +40,6 @@ const HeaderCmp: React.FC<HeaderCmpProps> = ({
 	// Pick logo based on theme
 	const isDark = themeSo.state.current?.palette?.mode === 'dark';
 	const isHome = locationSo.state.current === LOCATION_PAGE.TASKS;
-	const logo = isDark ? logoDark : logoLight;
 
 	// RENDER
 	return (

@@ -1,5 +1,5 @@
 import { buildTasksApiMock } from '@/api/tasks.mock'
-import { buildExternalParamsMock } from '@/plugins/urlParams/url.mock.'
+import { buildUrlParamsMock } from '@/plugins/services/url.mock.'
 import { createStore } from '@priolo/jon'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { TASK_STATUS } from '../../types/Task'
@@ -13,24 +13,22 @@ describe('TasksListStore', () => {
 
 	beforeEach(() => {
 		tasksSo = createStore<TasksListState>(setup) as TasksListStore
-		tasksSo.api = buildTasksApiMock()
-		const externalParams = buildExternalParamsMock()
-		tasksSo.getExternalValue = externalParams.getUrlParamMock
-		tasksSo.setExternalValue = externalParams.setUrlParamMock
+		tasksSo.apiService = buildTasksApiMock()
+		tasksSo.urlParamsService = buildUrlParamsMock()
 	})
 
 	afterEach(() => {
 	})
 
 	it('fetch should load tasks from repo and set state', async () => {
-		const tasks = (await tasksSo.api.index()).tasks
+		const tasks = (await tasksSo.apiService.index()).tasks
 		await tasksSo.fetch()
 		expect(tasksSo.state.all).toHaveLength(3)
 		expect(tasksSo.state.all).toEqual(tasks)
 	})
 
 	it('getTasksView should filter tasks by text', async () => {
-		const tasks = (await tasksSo.api.index()).tasks
+		const tasks = (await tasksSo.apiService.index()).tasks
 		tasksSo.setAll(tasks)
 		tasksSo.setTextFilter('Task 1')
 
@@ -40,7 +38,7 @@ describe('TasksListStore', () => {
 	})
 
 	it('getTasksView should sort tasks', async () => {
-		const tasks = (await tasksSo.api.index()).tasks
+		const tasks = (await tasksSo.apiService.index()).tasks
 		tasksSo.setAll(tasks)
 
 		// Sort DESC

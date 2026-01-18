@@ -1,6 +1,6 @@
 import tasksApi, { TasksApi } from "@/api/tasks.js"
+import { buildUrlParams, URL_PARAMS_TYPE, UrlParamsService } from "@/plugins/services/url"
 import { Task, TASK_STATUS } from "@/types/Task"
-import { getUrlParam as getUrlValue, setUrlParam as setUrlValue, URL_PARAMS_TYPE } from "@/plugins/urlParams/url"
 import { createStore, StoreCore } from "@priolo/jon"
 
 
@@ -13,21 +13,21 @@ export const setup = {
 
 	getters: {
 		getSelected: (_: void, store?: TasksListStore): string[] => {
-			const value = store.getExternalValue(URL_PARAMS_TYPE.TASK_SELECTED) ?? []
+			const value = store.urlParamsService.get(URL_PARAMS_TYPE.TASK_SELECTED) ?? []
 			return Array.isArray(value) ? value : [value]
 		},
 
-		/** restituisce il testo che filtra i tasks */
+		/** returns the text filtering the tasks */
 		getTextFilter: (_: void, store?: TasksListStore): string => {
-			return (store.getExternalValue(URL_PARAMS_TYPE.TASK_TEXT_FILTER) as string) ?? ""
+			return (store.urlParamsService.get(URL_PARAMS_TYPE.TASK_TEXT_FILTER) as string) ?? ""
 		},
 
 		getSortBy: (_: void, store?: TasksListStore): Sort => {
-			const values = (store.getExternalValue(URL_PARAMS_TYPE.TASK_SORT_BY) as string)?.split("-")
+			const values = (store.urlParamsService.get(URL_PARAMS_TYPE.TASK_SORT_BY) as string)?.split("-")
 			return { prop: values?.[0], direction: values?.[1] as any }
 		},
 
-		/** restituisce la lista dei TASKs come deve apparire in lista */
+		/** returns the list of TASKs as it should appear in the list */
 		getTasksView: (_: void, store?: TasksListStore): Task[] => {
 			if (!store.state.all) return []
 			let tasks = [...store.state.all]
@@ -60,42 +60,42 @@ export const setup = {
 	actions: {
 
 		/**
-		 * Carica i TASKS dallo REPO e li setta nello STORE
+		 * Loads TASKS from REPO and sets them in STORE
 		 * */
 		async fetch(_: void, store?: TasksListStore) {
-			const tasks = (await store.api.index())?.tasks ?? []
+			const tasks = (await store.apiService.index())?.tasks ?? []
 			store.setAll(tasks)
 		},
 
 		/**
-		 * Aggiorna solo lo STATUS di un TASK
+		 * Updates only the STATUS of a TASK
 		 */
 		async updateStatus(props: { id: string, status: TASK_STATUS }, store?: TasksListStore) {
 			const { id, status } = props
 			const task = store.state.all.find(t => t.id === id)
 			if (!task) return
 			task.status = status
-			await store.api.save(task)
+			await store.apiService.save(task)
 			store.setAll([...store.state.all])
 		},
 
 		async bulkDelete(_: void, store?: TasksListStore) {
 			const selectedIds = store.getSelected()
-			await store.api.bulkDelete(selectedIds)
+			await store.apiService.bulkDelete(selectedIds)
 			store.setAll(store.state.all.filter(t => !selectedIds.includes(t.id!)))
 			store.setSelected([])
 		},
 
 		/**
-		 * setta i TASKS selezionati
+		 * sets the selected TASKS
 		 */
 		setSelected(ids: string[], store?: TasksListStore) {
-			store.setExternalValue(URL_PARAMS_TYPE.TASK_SELECTED, ids.length > 0 ? ids : null);
+			store.urlParamsService.set(URL_PARAMS_TYPE.TASK_SELECTED, ids.length > 0 ? ids : null);
 			store._update()
 		},
 
 		/**
-		 * toggle selezione di un TASK
+		 * toggle selection of a TASK
 		 */
 		toggleSelect(id: string, store?: TasksListStore) {
 			let selected = [...store.getSelected()]
@@ -105,10 +105,10 @@ export const setup = {
 		},
 
 		/** 
-		 * setta la text che filtra i TASKS 
+		 * sets the text that filters the TASKS 
 		 * */
 		setTextFilter(filter: string, store?: TasksListStore) {
-			store.setExternalValue(URL_PARAMS_TYPE.TASK_TEXT_FILTER, filter);
+			store.urlParamsService.set(URL_PARAMS_TYPE.TASK_TEXT_FILTER, filter);
 			store.setAll([...store.state.all])
 		},
 
@@ -116,7 +116,7 @@ export const setup = {
 		 * nome della prop che ordina i TASKS 
 		 * */
 		setSortBy(payload: Sort, store?: TasksListStore) {
-			store.setExternalValue(URL_PARAMS_TYPE.TASK_SORT_BY, `${payload.prop}-${payload.direction}`);
+			store.urlParamsService.set(URL_PARAMS_TYPE.TASK_SORT_BY, `${payload.prop}-${payload.direction}`);
 			store.setAll([...store.state.all])
 		}
 
@@ -133,15 +133,13 @@ export type TasksListActions = typeof setup.actions
 export type TasksListMutators = typeof setup.mutators
 export interface TasksListStore extends StoreCore<TasksListState>, TasksListGetters, TasksListActions, TasksListMutators {
 	state: TasksListState,
-	api: TasksApi,
-	getExternalValue?: (key: string) => string | string[],
-	setExternalValue?: (key: string, value: string | string[]) => void,
+	apiService: TasksApi,
+	urlParamsService?: UrlParamsService,
 }
 
 const tasksSo = createStore<TasksListState>(setup) as TasksListStore
-tasksSo.api = tasksApi
-tasksSo.getExternalValue = getUrlValue
-tasksSo.setExternalValue = setUrlValue
+tasksSo.apiService = tasksApi
+tasksSo.urlParamsService = buildUrlParams()
 export default tasksSo
 
 export type Sort = {

@@ -2,8 +2,8 @@ import { StoreCore, createStore } from "@priolo/jon"
 
 
 /**
- * Gestione della dialog
- * Questa puo' essere modale o snackbar
+ * Dialog management
+ * This can be modal or snackbar
  */
 
 // used when dialog closed
@@ -17,7 +17,7 @@ export enum DIALOG_TYPE {
 }
 
 /**
- * una struttura che indica come deve essere visualizzata la dialog
+ * a structure indicating how the dialog should be displayed
  */
 export interface DialogMsg {
 	title?: string
@@ -31,7 +31,7 @@ export interface DialogMsg {
 const setup = {
 
 	state: {
-		// per la policy dialog
+		// for the policy dialog
 		isPolicyOpen: false,
 
 		isOpen: false,
@@ -48,8 +48,8 @@ const setup = {
 
 	actions: {
 		/**
-		 * Apre la dialog, restituisce un Promise che viene risolto su "dialogClose"
-		 * @param conf una struttura che indica come deve essere visualizzata la dialog
+		 * Opens the dialog, returns a Promise that resolves on "dialogClose"
+		 * @param conf a structure indicating how the dialog should be displayed
 		 */
 		dialogOpen: (conf: DialogMsg, store?: DialogStore) => {
 			const defaults: DialogMsg = {
@@ -70,8 +70,8 @@ const setup = {
 			})
 		},
 		/**
-		 * chiude la dialog
-		 * @param payload un eventuale valore da restituire (dialogOpen risolve un Promise con questo valore)
+		 * closes the dialog
+		 * @param payload an optional value to return (dialogOpen resolves a Promise with this value)
 		 */
 		dialogClose: (payload?: any, store?: DialogStore) => {
 			store.setDialogIsOpen(false)

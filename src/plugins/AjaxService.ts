@@ -13,17 +13,17 @@ enum METHOD {
 
 const optionsDefault = {
 	baseUrl: import.meta.env.VITE_API_URL ?? "/api/",
-	/** si tratta di una richiesta di login */
+	/** it is a login request */
 	isLogin: false,
 	loading: true,
 	noError: false,
 	noBusy: false,
 	store: null,
-	/** utilizza questo signal per fare l'abort */
+	/** use this signal to abort */
 	signal: <AbortSignal>null,
-	/** se true setto nello store l'oggetto per l'abort */
+	/** if true set the abort object in the store */
 	manageAbort: false,
-	/** [DISABILITATO] non restituire trasformato in camelCase */
+	/** [DISABLED] do not return transformed to camelCase */
 	noCamel: false,
 
 }
@@ -83,7 +83,7 @@ export class AjaxService {
 			}
 			throw e
 		} finally {
-			// setto l'interfaccia
+			// set the interface
 			if (!options.noBusy) layoutSo.setBusy(false)
 		}
 

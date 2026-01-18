@@ -3,12 +3,12 @@ import { createStore, StoreCore } from "@priolo/jon";
 
 
 /**
- * Store per la formattazione del layout generale della pagina
+ * Store for the general page layout formatting
  */
 const setup = {
 
 	state: {
-		/** indica che c'e' un loading */
+		/** indicates that there is a loading process */
 		busy: false,
 	},
 

@@ -4,7 +4,7 @@ import { Dimension } from "../../types/global"
 
 
 /**
- * enum dei device gestiti
+ * enum of managed devices
  */
 export enum DEVICE_TYPE {
 	DESKTOP,
@@ -16,7 +16,7 @@ export enum DEVICE_ORIENTATION {
 }
 
 /**
- * indica che tipo di device si tratta
+ * indicates what type of device it is
  */
 const setup = {
 

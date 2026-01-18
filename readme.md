@@ -56,7 +56,7 @@
 
 #### STORES
 `src\stores`  
-**CONTROLLER** per componenti specializzati come le PAGES.  
+**CONTROLLER** per le VIEW specializzate come per esmepio le PAGES.  
 Si occupa di mantenere lo stato e la logica di business dell'applicazione.  
 Gli STORE hanno dependency injection per renderli testabili e indipendenti.
 TEST: si possono testare con unit-test.
@@ -137,16 +137,29 @@ ci sono troppe parti interattive a schermo soprattutto se si attiva la multisele
 
 
 ## TESTING
-Per eseguire i test:  
+ 
+#### UNIT TEST
+ 
+Esegui:  
 `npm run test`
 
-quindi vengono eseguiti gli unit-test   
-- sugli STORES  
+- Su STORES  
 `src/stores/task/detail.test.ts`  
 `src/stores/task/list.test.ts`  
-- sulle UTILS  
+- Su UTILS  
 `src/plugins/urlParams/url.test.ts`  
-- sui COMPONENTS  
+- Su COMPONENTS  
 `src/components/TableCellSort.test.tsx`  
 `src/components/StatusDialog.test.tsx`  
 
+#### E2E
+
+Installa i browser di Playwright:
+Playwright necessita dei binari dei browser per eseguire i test.
+`npx playwright install`
+
+Esegui (no gui):
+`npm run test:e2e`
+
+Report:
+`npx playwright show-report`

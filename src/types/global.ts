@@ -1,11 +1,11 @@
 
-/** stringa che indica una DATE formattata YYYY-MM-DD */
+/** string indicating a DATE formatted YYYY-MM-DD */
 export type DateString = string
 
-/** stringa che indica un TIMEformattata HH:MM */
+/** string indicating a TIME formatted HH:MM */
 export type TimeString = string
 
-/** numbero che indica un time secodno la convenzione di Date.getTime() */
+/** number indicating a time according to Date.getTime() convention */
 export type DateNumber = number
 
 /** UNIX timestamp */
@@ -15,10 +15,10 @@ export type TimestampString = string
 export type Timestamp = number
 
 
-/** Colore esadecimale tipo #FFFFFF */
+/** Hexadecimal color like #FFFFFF */
 export type Color = `#${string}`
 
-/** una string che rappresenta un uuid */
+/** a string representing a uuid */
 export type Uuid = string
 
 export type Dimension = {
